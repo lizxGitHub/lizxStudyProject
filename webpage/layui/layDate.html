@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>日期区间</title>
+</head>
+<body>
+<input type="text" id="timeStartValue">
+<input type="text" id="timeEndValue">
+<script src="js/laydate.js"></script> <!-- 改成你的路径 -->
+<script>
+    var startDate = laydate.render({
+        elem: '#timeStartValue',
+        type: 'date',
+        format: 'yyyy-MM-dd', //可任意组合
+        trigger: 'click',
+        done: function (value, date) {
+            if (value != "") {
+                date.month = date.month - 1;
+                endDate.config.min = date;
+            } else {
+                endDate.config.min = startDate.config.min;
+            }
+        }
+    });
+    var endDate = laydate.render({
+        elem: '#timeEndValue',
+        type: 'date',
+        format: 'yyyy-MM-dd', //可任意组合
+        trigger: 'click',
+        done: function (value, date) {
+            if (value != "") {
+                date.month = date.month - 1;
+                startDate.config.max = date;
+            } else {
+                startDate.config.max = endDate.config.max;
+            }
+        }
+    });
+
+    /**
+     * 在修改时对回填的日期进行区间的限制
+     *
+     */
+    // var timeEndValue = $("#timeEndValue").val();
+    var timeEndValue = "2019-10-12";
+    if (timeEndValue) {
+        var array = timeEndValue.split("-");
+        var date = {
+            year: array[0],
+            month: array[1],
+            date: array[2]
+        }
+        date.month = date.month - 1;
+        startDate.config.max = date;
+    }
+    var timeStartValue = $("#timeStartValue").val();
+    if (timeStartValue) {
+        var array = timeStartValue.split("-");
+        var date = {
+            year: array[0],
+            month: array[1],
+            date: array[2]
+        }
+        date.month = date.month - 1;
+        endDate.config.min = date;
+    }
+</script>
+</body>
+</html>
